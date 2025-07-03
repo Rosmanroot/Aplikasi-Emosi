@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Moodie</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Moodie</h1>
+    <p id="formTitle">Silakan login untuk melanjutkan</p>
+
+    <form id="authForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" id="submitBtn">Login</button>
+    </form>
+
+    <p id="authMessage"></p>
+
+    <p class="switch-text">
+      <span id="toggleText">Belum punya akun?</span>
+      <button onclick="toggleMode()" id="toggleButton">Daftar di sini</button>
+    </p>
+  </div>
+
+  <script>
+    let isLoginMode = true;
+
+    function toggleMode() {
+      isLoginMode = !isLoginMode;
+      document.getElementById("formTitle").textContent = isLoginMode
+        ? "Silakan login untuk melanjutkan"
+        : "Daftar akun baru";
+      document.getElementById("submitBtn").textContent = isLoginMode
+        ? "Login"
+        : "Daftar";
+      document.getElementById("toggleText").textContent = isLoginMode
+        ? "Belum punya akun?"
+        : "Sudah punya akun?";
+      document.getElementById("toggleButton").textContent = isLoginMode
+        ? "Daftar di sini"
+        : "Login di sini";
+      document.getElementById("authMessage").textContent = "";
+    }
+
+    document.getElementById("authForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const messageEl = document.getElementById("authMessage");
+
+      if (!username || !password) {
+        messageEl.style.color = "red";
+        messageEl.textContent = "Username dan password tidak boleh kosong!";
+        return;
+      }
+
+      const storedUsers = JSON.parse(localStorage.getItem("emosyncUsers") || "{}");
+
+      if (isLoginMode) {
+        if (storedUsers[username] && storedUsers[username] === password) {
+          localStorage.setItem("emosyncUser", username);
+          messageEl.style.color = "green";
+          messageEl.textContent = `Login berhasil, selamat datang ${username}!`;
+          setTimeout(() => (window.location.href = "index.html"), 1000);
+        } else {
+          messageEl.style.color = "red";
+          messageEl.textContent = "Username atau password salah.";
+        }
+      } else {
+        if (storedUsers[username]) {
+          messageEl.style.color = "red";
+          messageEl.textContent = "Username sudah terdaftar.";
+        } else {
+          storedUsers[username] = password;
+          localStorage.setItem("emosyncUsers", JSON.stringify(storedUsers));
+          messageEl.style.color = "green";
+          messageEl.textContent = "Pendaftaran berhasil! Sekarang silakan login.";
+          toggleMode();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
