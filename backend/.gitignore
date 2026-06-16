@@ -1,0 +1,5 @@
+# Emosync Frontend (React)
+node_modules/
+build/
+dist/
+.env

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moodie - Admin Dashboard</title>
+    <style>
+      :root {
+        --moodie-blue: #1c6d8e; /* Warna utama Moodie Anda */
+        --moodie-light: #e3f2f7; /* Warna latar belakang lembut */
+        --bg: #f0f4f8;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: var(--bg);
+        color: #333;
+        margin: 0;
+        padding-bottom: 3rem;
+      }
+
+      header {
+        background-color: var(--moodie-blue);
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 4px 10px rgba(28, 109, 142, 0.2);
+      }
+
+      .card {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+        border-top: 5px solid var(--moodie-blue); /* Aksen warna user */
+      }
+
+      .card-title {
+        color: var(--moodie-blue);
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--moodie-light);
+        padding-bottom: 0.5rem;
+      }
+
+      .stats-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: #2d3748;
+      }
+      
+      .stats-icon { 
+        background: var(--moodie-light); 
+        padding: 10px; 
+        border-radius: 12px; 
+        font-size: 1.5rem; 
+      }
+
+      /* Badge warna senada */
+      .badge-face { background-color: #8e44ad; }
+      .badge-text { background-color: var(--moodie-blue); }
+
+      /* Journal styling yang lebih soft */
+      .journal-group {
+        background: #fcfdfe;
+        padding: 1rem;
+        border-radius: 12px;
+        border-left: 5px solid var(--moodie-blue);
+        margin-bottom: 1rem;
+      }
+
+      .back-btn {
+        background-color: #e53e3e;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Moodie Admin Workspace</h1>
+      <button onclick="logout()" class="back-btn">Keluar (Logout)</button>
+    </header>
+
+    <div class="container">
+      <h2 class="dashboard-title">ADMIN DASHBOARD</h2>
+
+      <div class="card">
+        <div class="stats-box">
+          <span class="stats-icon">👤</span>
+          <span>Total Pengguna : <span id="totalUsers">Loading...</span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">RIWAYAT EMOSI</div>
+        <div style="overflow-x: auto">
+          <table class="emotion-table">
+            <thead>
+              <tr>
+                <th>Nama Pengguna</th>
+                <th>Emosi</th>
+                <th>Metode</th>
+              </tr>
+            </thead>
+            <tbody id="emotionHistoryContainer">
+              <tr>
+                <td colspan="3" class="loading-text">
+                  Memuat riwayat emosi...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">JURNAL HARIAN</div>
+        <div id="journalHistoryContainer">
+          <div class="loading-text">Memuat jurnal harian...</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("role");
+
+      // Proteksi Halaman: Hanya Admin yang boleh masuk
+      if (!token || role !== "admin") {
+        alert("Akses ditolak! Halaman ini hanya untuk Admin.");
+        window.location.href = "login.html";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadAdminData();
+      });
+
+      async function loadAdminData() {
+        try {
+          // PERBAIKAN 1: Menyesuaikan endpoint ke '/dashboard-stats' sesuai router admin.js terbaru kamu
+          const response = await fetch(
+            "http://localhost:5000/api/admin/dashboard-stats",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const result = await response.json();
+
+          // PERBAIKAN 2: Validasi menggunakan properti 'result.success' dari backend
+          if (!response.ok || !result.success) {
+            throw new Error(result.message || "Gagal mengambil data admin.");
+          }
+
+          // Mengambil objek data utama yang dibungkus oleh backend
+          const stats = result.data;
+
+          // ---- RENDER DATA TOTAL PENGGUNA ----
+          document.getElementById("totalUsers").textContent =
+            stats.totalUsers !== undefined ? stats.totalUsers : "0";
+
+          // ---- RENDER DATA RIWAYAT EMOSI ----
+          const emotionContainer = document.getElementById(
+            "emotionHistoryContainer"
+          );
+          // PERBAIKAN 3: Menggunakan nama 'stats.emotionHistory' dan menangani data '.populate()'
+          if (stats.emotionHistory && stats.emotionHistory.length > 0) {
+            emotionContainer.innerHTML = stats.emotionHistory
+              .map((item) => {
+                // Mengambil username dari hasil populate 'userId'
+                const userNama = item.userId?.username || "Anonim";
+                const tipeDeteksi = item.type || "text";
+                const badgeClass =
+                  tipeDeteksi.toLowerCase() === "face"
+                    ? "badge-face"
+                    : "badge-text";
+
+                return `
+                <tr>
+                  <td style="font-weight: 500;">${userNama}</td>
+                  <td>${getEmotionEmoji(item.emotion)} ${item.emotion}</td>
+                  <td><span class="badge ${badgeClass}">${tipeDeteksi.toUpperCase()}</span></td>
+                </tr>
+              `;
+              })
+              .join("");
+          } else {
+            emotionContainer.innerHTML = `<tr><td colspan="3" class="loading-text">Belum ada riwayat emosi terekam.</td></tr>`;
+          }
+
+          // ---- RENDER DATA JURNAL HARIAN ----
+          const journalContainer = document.getElementById(
+            "journalHistoryContainer"
+          );
+          // PERBAIKAN 4: Menggunakan nama 'stats.dailyJournals' dan menangani data '.populate()'
+          if (stats.dailyJournals && stats.dailyJournals.length > 0) {
+            journalContainer.innerHTML = stats.dailyJournals
+              .map((journal) => {
+                // Mengambil username dari hasil populate 'userId'
+                const userNama = journal.userId?.username || "Anonim";
+                return `
+                <div class="journal-group">
+                  <div class="journal-user">${userNama} :</div>
+                  <p class="journal-content">${
+                    journal.content || journal.body || ""
+                  }</p>
+                </div>
+              `;
+              })
+              .join("");
+          } else {
+            journalContainer.innerHTML = `<div class="loading-text">Belum ada jurnal harian yang ditulis oleh pengguna.</div>`;
+          }
+        } catch (err) {
+          console.error("Gagal memuat data dashboard admin:", err);
+          document.getElementById("totalUsers").textContent = "Error";
+          document.getElementById(
+            "emotionHistoryContainer"
+          ).innerHTML = `<tr><td colspan="3" class="loading-text" style="color:red;">Gagal memuat data dari server.</td></tr>`;
+          document.getElementById(
+            "journalHistoryContainer"
+          ).innerHTML = `<div class="loading-text" style="color:red;">Gagal memuat data dari server.</div>`;
+        }
+      }
+
+      function getEmotionEmoji(emotion) {
+        switch (emotion?.toLowerCase()) {
+          case "happy":
+          case "senang":
+            return "😊";
+          case "sad":
+          case "sedih":
+            return "😢";
+          case "angry":
+          case "marah":
+            return "😠";
+          default:
+            return "😐";
+        }
+      }
+
+      function logout() {
+        localStorage.clear();
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>

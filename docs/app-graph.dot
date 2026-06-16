@@ -1,0 +1,21 @@
+digraph emosync_app {
+    rankdir=LR;
+    node [shape=box, style=filled, color=lightblue];
+
+    index_html [label="index.html\n(Login Page)"];
+    login_css [label="login.css\n(Login Styles)"];
+    dashboard_html [label="dashboard.html\n(Main Dashboard)"];
+    style_css [label="style.css\n(Dashboard Styles)"];
+    script_js [label="script.js\n(Face Detection Script)"];
+    camera_html [label="camera.html\n(Camera Test Page)"];
+
+    index_html -> login_css [label="link rel=stylesheet"];
+    index_html -> dashboard_html [label="redirect on login success"];
+    dashboard_html -> style_css [label="link rel=stylesheet"];
+    dashboard_html -> script_js [label="face detection, emotion logic"];
+    dashboard_html -> camera_html [label="camera test (optional)"];
+    dashboard_html -> "face-api.js, chart.js" [label="external libs"];
+    camera_html -> "navigator.mediaDevices" [label="camera access"];
+    script_js -> "face-api.js" [label="face detection"];
+    script_js -> dashboard_html [label="used for face detection"];
+}

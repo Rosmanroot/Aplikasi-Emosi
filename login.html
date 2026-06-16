@@ -45,7 +45,7 @@
       document.getElementById("authMessage").textContent = "";
     }
 
-    document.getElementById("authForm").addEventListener("submit", function (e) {
+    document.getElementById("authForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
@@ -57,29 +57,53 @@
         return;
       }
 
-      const storedUsers = JSON.parse(localStorage.getItem("emosyncUsers") || "{}");
+      const endpoint = isLoginMode ? '/login' : '/register';
 
-      if (isLoginMode) {
-        if (storedUsers[username] && storedUsers[username] === password) {
-          localStorage.setItem("emosyncUser", username);
+      try {
+        messageEl.style.color = "orange";
+        messageEl.textContent = "Memproses...";
+
+        const response = await fetch(`http://localhost:5000/api/auth${endpoint}`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json' 
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
           messageEl.style.color = "green";
-          messageEl.textContent = `Login berhasil, selamat datang ${username}!`;
-          setTimeout(() => (window.location.href = "index.html"), 1000);
+          
+          if (isLoginMode) {
+            messageEl.textContent = `Login berhasil! Selamat datang ${data.username || username}.`;
+            
+            // 1. Simpan session token, username, dan role dari backend ke localStorage
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("emosyncUser", data.username || username);
+            localStorage.setItem("role", data.role || "user"); // Menyimpan role ("user" / "admin")
+
+            // 2. Pengalihan Halaman Otomatis Berdasarkan Role setelah 1 detik
+            setTimeout(() => {
+              if (data.role === "admin") {
+                window.location.href = "admin.html"; // Jika admin, masuk ke Dashboard Admin terpisah
+              } else {
+                window.location.href = "index.html";  // Jika user biasa, masuk ke Dashboard Utama
+              }
+            }, 1000);
+
+          } else {
+            messageEl.textContent = "Pendaftaran berhasil! Sekarang silakan login.";
+            // Balikkan form ke mode login otomatis agar user tinggal mengetik ulang
+            toggleMode();
+          }
         } else {
-          messageEl.style.color = "red";
-          messageEl.textContent = "Username atau password salah.";
+          throw new Error(data.error || "Terjadi kesalahan pada server.");
         }
-      } else {
-        if (storedUsers[username]) {
-          messageEl.style.color = "red";
-          messageEl.textContent = "Username sudah terdaftar.";
-        } else {
-          storedUsers[username] = password;
-          localStorage.setItem("emosyncUsers", JSON.stringify(storedUsers));
-          messageEl.style.color = "green";
-          messageEl.textContent = "Pendaftaran berhasil! Sekarang silakan login.";
-          toggleMode();
-        }
+      } catch (err) {
+        messageEl.style.color = "red";
+        messageEl.textContent = err.message;
       }
     });
   </script>
