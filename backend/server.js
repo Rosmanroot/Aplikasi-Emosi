@@ -1,7 +1,12 @@
 require('dotenv').config();
-const app = require('./src/app'); // Import app yang sudah berisi semua rute
+const cors = require('cors'); // 1. Import cors
+const app = require('./src/app'); 
 
-// Cukup pasang logging di sini jika perlu, tapi rute JANGAN diulang
+// 2. Gunakan middleware cors
+// Ini akan mengizinkan semua domain untuk mengakses backend Anda
+app.use(cors()); 
+
+// Logging middleware
 app.use((req, res, next) => {
     console.log(`Request diterima: ${req.method} ${req.url}`);
     next();

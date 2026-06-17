@@ -69,7 +69,6 @@
         margin: 1rem auto;
         max-width: 600px;
       }
-      /* PERBAIKAN: Layout kontainer Heatmap agar berjejer rapi membentuk kotak grid */
       #heatmapContainer {
         display: flex;
         flex-wrap: wrap;
@@ -102,18 +101,10 @@
         transform: scale(1.2);
         cursor: pointer;
       }
-      .senang {
-        background-color: #4caf50;
-      }
-      .sedih {
-        background-color: #2196f3;
-      }
-      .marah {
-        background-color: #f44336;
-      }
-      .netral {
-        background-color: #9e9e9e;
-      }
+      .senang { background-color: #4caf50; }
+      .sedih { background-color: #2196f3; }
+      .marah { background-color: #f44336; }
+      .netral { background-color: #9e9e9e; }
       #emotionIcon {
         font-size: 64px;
         margin-top: 10px;
@@ -121,77 +112,25 @@
         transition: all 0.3s ease-in-out;
         filter: drop-shadow(0 0 8px #ccc);
       }
-      .glow-senang {
-        color: #4caf50;
-        text-shadow: 0 0 10px #4caf50;
-      }
-      .glow-sedih {
-        color: #2196f3;
-        text-shadow: 0 0 10px #2196f3;
-      }
-      .glow-marah {
-        color: #f44336;
-        text-shadow: 0 0 10px #f44336;
-      }
-      .glow-netral {
-        color: #9e9e9e;
-        text-shadow: 0 0 10px #9e9e9e;
-      }
+      .glow-senang { color: #4caf50; text-shadow: 0 0 10px #4caf50; }
+      .glow-sedih { color: #2196f3; text-shadow: 0 0 10px #2196f3; }
+      .glow-marah { color: #f44336; text-shadow: 0 0 10px #f44336; }
+      .glow-netral { color: #9e9e9e; text-shadow: 0 0 10px #9e9e9e; }
       @keyframes bounce {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
       }
-      .input-container {
-        max-width: 600px;
-        margin: 1rem auto;
-      }
-      .input-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-      }
+      .input-container { max-width: 600px; margin: 1rem auto; }
+      .input-row { display: flex; justify-content: center; align-items: center; gap: 10px; }
       .input-row select {
-        flex: 1;
-        padding: 0.7rem;
-        font-size: 1rem;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        background-color: white;
-        transition: box-shadow 0.2s ease;
+        flex: 1; padding: 0.7rem; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; background-color: white; transition: box-shadow 0.2s ease;
       }
-      .input-row select:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(41, 146, 187, 0.6);
-      }
+      .input-row select:focus { outline: none; box-shadow: 0 0 5px rgba(41, 146, 187, 0.6); }
       .input-row button {
-        padding: 0.7rem 1.2rem;
-        font-size: 1rem;
-        background-color: #2992bb;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease,
-          box-shadow 0.2s ease;
+        padding: 0.7rem 1.2rem; font-size: 1rem; background-color: #2992bb; color: white; border: none; border-radius: 8px; cursor: pointer;
       }
-      .input-row button:hover {
-        background-color: #1c6d8e;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      }
-      footer {
-        background-color: #2992bb;
-        color: white;
-        padding: 1rem;
-        margin-top: 2rem;
-        border-radius: 12px 12px 0 0;
-      }
+      .input-row button:hover { background-color: #1c6d8e; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+      footer { background-color: #2992bb; color: white; padding: 1rem; margin-top: 2rem; border-radius: 12px 12px 0 0; }
     </style>
   </head>
   <body>
@@ -201,50 +140,16 @@
         <a href="#" onclick="showSection('deteksi')" class="active">Deteksi Emosi</a>
         <a href="#" onclick="showSection('grafik')">Grafik Riwayat Emosi</a>
         <a href="#" onclick="showSection('panduan')">Panduan Penggunaan</a>
-        <span
-          id="userSection"
-          style="
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 1rem;
-            border-left: 2px solid rgba(255, 255, 255, 0.3);
-            padding-left: 1rem;
-          "
-        >
-          <span style="color: white; font-weight: 500"
-            >Halo, <span id="usernameDisplay" style="font-weight: bold">User</span>!</span
-          >
+        <span id="userSection" style="display:flex; align-items:center; gap:10px; margin-left:1rem; border-left:2px solid rgba(255,255,255,0.3); padding-left:1rem;">
+          <span style="color:white; font-weight:500">Halo, <span id="usernameDisplay" style="font-weight:bold">User</span>!</span>
           <span id="adminMenuContainer"></span>
-          <button
-            id="logoutBtn"
-            onclick="logout()"
-            onmouseover="this.style.backgroundColor='#d32f2f'"
-            onmouseout="this.style.backgroundColor='#e53935'"
-            style="
-              background-color: #e53935;
-              color: white;
-              border: none;
-              padding: 0.4rem 0.8rem;
-              border-radius: 6px;
-              cursor: pointer;
-              font-weight: bold;
-              font-size: 0.9rem;
-              transition: background-color 0.3s;
-              margin-left: 5px;
-            "
-          >
-            Keluar
-          </button>
+          <button id="logoutBtn" onclick="logout()" onmouseover="this.style.backgroundColor='#d32f2f'" onmouseout="this.style.backgroundColor='#e53935'" style="background-color:#e53935; color:white; border:none; padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; font-weight:bold; margin-left:5px;">Keluar</button>
         </span>
       </nav>
     </header>
 
     <section id="deteksi" class="section active">
-      <h2>
-        Mengenali perasaan adalah awal dari pemahaman diri. Hari ini adalah
-        kesempatan baru untuk memahami dirimu lebih dalam.
-      </h2>
+      <h2>Mengenali perasaan adalah awal dari pemahaman diri. Hari ini adalah kesempatan baru untuk memahami dirimu lebih dalam.</h2>
       <h2>Pilih emosi yang mewakili dirimu hari ini 💙</h2>
       <div class="input-container">
         <div class="input-row">
@@ -283,145 +188,53 @@
         </div>
       </div>
 
-      <div
-        class="side-container"
-        style="
-          display: flex;
-          gap: 2rem;
-          justify-content: center;
-          align-items: stretch;
-          max-width: 1000px;
-          margin: 1.5rem auto;
-          flex-wrap: wrap;
-          padding: 0 1rem;
-          box-sizing: border-box;
-        "
-      >
-        <div
-          class="history-section"
-          style="
-            flex: 1.2;
-            min-width: 320px;
-            margin: 0;
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 14px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-          "
-        >
-          <h3 style="color: #2992bb; margin-top: 0; margin-bottom: 1.5rem">
-            📊 Grafik Riwayat Emosi
-          </h3>
-          <div style="position: relative; width: 100%; max-width: 550px; margin: 0 auto;">
+      <div class="side-container" style="display:flex; gap:2rem; justify-content:center; align-items:stretch; max-width:1000px; margin:1.5rem auto; flex-wrap:wrap; padding:0 1rem; box-sizing:border-box;">
+        <div class="history-section" style="flex:1.2; min-width:320px; background-color:white; padding:1.5rem; border-radius:14px;">
+          <h3 style="color:#2992bb; margin-top:0; margin-bottom:1.5rem">📊 Grafik Riwayat Emosi</h3>
+          <div style="position:relative; width:100%; max-width:550px; margin:0 auto;">
             <canvas id="emotionChart" width="600" height="300"></canvas>
           </div>
-          <button
-            onclick="downloadEmotionChart()"
-            style="
-              margin-top: 15px;
-              background-color: #0288d1;
-              color: white;
-              border: none;
-              padding: 10px 20px;
-              border-radius: 8px;
-              cursor: pointer;
-              font-weight: bold;
-              transition: background-color 0.3s, transform 0.2s;
-            "
-            onmouseover="this.style.backgroundColor='#0277bd'; this.style.transform='translateY(-2px)';"
-            onmouseout="this.style.backgroundColor='#0288d1'; this.style.transform='none';"
-          >
-            📥 Unduh Grafik Emosi
-          </button>
+          <button onclick="downloadEmotionChart()" style="margin-top:15px; background-color:#0288d1; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;">📥 Unduh Grafik Emosi</button>
         </div>
 
-        <div
-          class="journal-section"
-          style="
-            flex: 1;
-            min-width: 320px;
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 14px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-sizing: border-box;
-          "
-        >
+        <div class="journal-section" style="flex:1; min-width:320px; background-color:white; padding:1.5rem; border-radius:14px; display:flex; flex-direction:column; justify-content:space-between;">
           <div>
-            <h3 style="margin-top: 0; margin-bottom: 1.5rem; text-align: center; color: #2992bb;">
-              📝 Jurnal Harian
-            </h3>
-
-            <div style="margin-bottom: 1rem">
-              <label style="font-weight: bold; display: block; margin-bottom: 0.4rem; color: #333; font-size: 0.95rem;">Tanggal :</label>
-              <input
-                type="date"
-                id="journalDate"
-                style="width: 100%; padding: 0.7rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box; outline: none; transition: border-color 0.3s;"
-                onfocus="this.style.borderColor='#2992bb'"
-                onblur="this.style.borderColor='#ccc'"
-              />
+            <h3 style="margin-top:0; margin-bottom:1.5rem; text-align:center; color:#2992bb;">📝 Jurnal Harian</h3>
+            <div style="margin-bottom:1rem">
+              <label style="font-weight:bold; display:block; margin-bottom:0.4rem; color:#333; font-size:0.95rem;">Tanggal :</label>
+              <input type="date" id="journalDate" style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem;" onfocus="this.style.borderColor='#2992bb'" onblur="this.style.borderColor='#ccc'"/>
             </div>
 
-            <div style="margin-bottom: 1rem">
-              <label style="font-weight: bold; display: block; margin-bottom: 0.4rem; color: #333; font-size: 0.95rem;">Emosi Hari Ini :</label>
-              <div
-                id="journalEmotionDisplay"
-                style="width: 100%; padding: 0.7rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box; display: flex; align-items: center; gap: 8px; font-weight: bold; background-color: #f5f5f5; color: #616161; transition: all 0.3s ease;"
-              >
-                😐 Netral
-              </div>
+            <div style="margin-bottom:1rem">
+              <label style="font-weight:bold; display:block; margin-bottom:0.4rem; color:#333; font-size:0.95rem;">Emosi Hari Ini :</label>
+              <div id="journalEmotionDisplay" style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; display:flex; align-items:center; gap:8px; background-color:#f5f5f5;">😐 Netral</div>
             </div>
 
-            <div style="margin-bottom: 1.5rem">
-              <label style="font-weight: bold; display: block; margin-bottom: 0.4rem; color: #333; font-size: 0.95rem;">Apa yang terjadi hari ini?</label>
-              <textarea
-                id="journalContent"
-                placeholder="Ceritakan perasaan dan kejadian harimu di sini..."
-                style="width: 100%; height: 130px; padding: 0.7rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box; resize: none; font-family: inherit; outline: none; transition: border-color 0.3s;"
-                onfocus="this.style.borderColor='#2992bb'"
-                onblur="this.style.borderColor='#ccc'"
-              ></textarea>
+            <div style="margin-bottom:1.5rem">
+              <label style="font-weight:bold; display:block; margin-bottom:0.4rem; color:#333; font-size:0.95rem;">Apa yang terjadi hari ini?</label>
+              <textarea id="journalContent" placeholder="Ceritakan perasaan dan kejadian harimu di sini..." style="width:100%; height:130px; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; resize:none;" onfocus="this.style.borderColor='#2992bb'" onblur="this.style.borderColor='#ccc'"></textarea>
             </div>
           </div>
 
-          <button
-            onclick="simpanJurnal()"
-            style="background-color: #2992bb; color: white; border: none; padding: 0.8rem 1.2rem; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; width: 100%; transition: background-color 0.3s, transform 0.2s;"
-            onmouseover="this.style.backgroundColor='#1c6d8e'; this.style.transform='translateY(-2px)';"
-            onmouseout="this.style.backgroundColor='#2992bb'; this.style.transform='none';"
-          >
-            💾 Simpan Jurnal
-          </button>
-
-          <div id="journalStatus" style="margin-top: 0.8rem; text-align: center; font-weight: bold; font-size: 0.9rem;"></div>
+          <button onclick="simpanJurnal()" style="background-color:#2992bb; color:white; padding:0.8rem 1.2rem; border-radius:8px; font-weight:bold;">💾 Simpan Jurnal</button>
+          <div id="journalStatus" style="margin-top:0.8rem; text-align:center; font-weight:bold;"></div>
         </div>
       </div>
 
-      <div
-        class="result-box"
-        style="max-width: 1000px; text-align: left; margin: 2rem auto; padding: 1.5rem; background-color: white; border-radius: 14px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); box-sizing: border-box;"
-      >
-        <h3 style="text-align: center; color: #2992bb; margin-top: 0; margin-bottom: 1.5rem;">
-          📜 Riwayat Jurnal Anda
-        </h3>
-        <div id="journalHistoryList" style="max-height: 350px; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 15px;">
-          <p style="color: #777; text-align: center; font-style: italic; margin: 2rem 0;">Belum ada jurnal yang disimpan.</p>
+      <div class="result-box" style="max-width:1000px; text-align:left; margin:2rem auto;">
+        <h3 style="text-align:center; color:#2992bb; margin-top:0; margin-bottom:1.5rem;">📜 Riwayat Jurnal Anda</h3>
+        <div id="journalHistoryList" style="max-height:350px; overflow-y:auto; display:flex; flex-direction:column; gap:15px;">
+          <p style="color:#777; text-align:center; font-style:italic; margin:2rem 0;">Belum ada jurnal yang disimpan.</p>
         </div>
       </div>
     </section>
 
     <section id="panduan" class="section">
-      <div class="result-box" style="text-align: left">
-        <h3 style="text-align: center">📖 Panduan Penggunaan Moodie</h3>
+      <div class="result-box" style="text-align:left">
+        <h3 style="text-align:center">📖 Panduan Penggunaan Moodie</h3>
         <p>Hai, teman Moodie! ✨</p>
         <p>Dengan Moodie, kamu bisa mengenali perasaanmu setiap hari dan mendapatkan motivasi serta tips perawatan diri yang sesuai.</p>
-        <ul style="line-height: 1.6; padding-left: 1.2rem">
+        <ul style="line-height:1.6; padding-left:1.2rem">
           <li>💬 <strong>Pilih emosi:</strong> Pilih emosi dari dropdown.</li>
           <li>🔍 <strong>Deteksi Emosi:</strong> Klik tombol deteksi untuk hasil dan tips self-care.</li>
           <li>📊 <strong>Lihat grafik:</strong> Pantau perubahan emosi kamu di menu grafik.</li>
@@ -431,15 +244,16 @@
       </div>
     </section>
 
-    <footer>
-      <p>© 2026 Moodie</p>
-    </footer>
+    <footer><p>© 2026 Moodie</p></footer>
 
     <script>
+      // Configurable backend base URL. Set window.__BACKEND_URL__ on Vercel or replace the fallback URL.
+      const apiBase = window.__BACKEND_URL__ || (location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://YOUR_BACKEND_URL');
+
       const token = localStorage.getItem("token");
       const username = localStorage.getItem("emosyncUser");
       const role = localStorage.getItem("role");
-      const loggedInUser = username || "anonymous"; 
+      const loggedInUser = username || "anonymous";
 
       if (!token) {
         window.location.href = "login.html";
@@ -475,7 +289,6 @@
         const latestEmotion = localStorage.getItem(`emosyncLatestEmotion_${loggedInUser}`) || "Netral";
         updateJournalEmotionDisplay(latestEmotion);
 
-        // Panggil fungsi muat data
         muatJurnal();
         muatRiwayatEmosi();
       });
@@ -484,8 +297,8 @@
         if (!dateString) return "";
         const date = new Date(dateString);
         if (isNaN(date.getTime())) return dateString;
-        
-        const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+        const namaBulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
         return `${date.getDate()} ${namaBulan[date.getMonth()]} ${date.getFullYear()}`;
       }
 
@@ -538,35 +351,42 @@
 
       // ================= INTEGRASI JURNAL MONGODB =================
       async function simpanJurnal() {
-    const isiJurnal = document.getElementById('jurnalInput').value;
-    const token = localStorage.getItem('token');
+        const isiJurnal = document.getElementById("journalContent")?.value || "";
+        const tanggal = document.getElementById("journalDate")?.value || new Date().toISOString();
+        const tokenLocal = localStorage.getItem("token");
 
-    await fetch("http://localhost:5000/api/journal", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            jurnal: isiJurnal,
-            user: localStorage.getItem('userId') // Pastikan ID ini tersimpan saat login
-        })
-    });
-}
+        try {
+          const res = await fetch(`${apiBase}/api/journal`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${tokenLocal}`,
+            },
+            body: JSON.stringify({ content: isiJurnal, date: tanggal, user: localStorage.getItem("userId") }),
+          });
+          if (!res.ok) console.error("Gagal simpan jurnal:", await res.text());
+          await muatJurnal();
+        } catch (err) {
+          console.error("Gagal simpan jurnal:", err);
+        }
+      }
 
       async function muatJurnal() {
         const listEl = document.getElementById("journalHistoryList");
         if (!listEl) return;
 
         try {
-          // PERBAIKAN: Gunakan endpoint terpusat /api/journal
-          const response = await fetch("http://localhost:5000/api/journal", {
-            headers: { "Authorization": `Bearer ${token}` }
+          const response = await fetch(`${apiBase}/api/journal`, {
+            headers: { Authorization: `Bearer ${token}` },
           });
           const result = await response.json();
 
-          if (response.ok && Array.isArray(result) && result.length > 0) {
-            listEl.innerHTML = result.map(entry => `
+          const entries = Array.isArray(result) ? result : result.data || [];
+
+          if (response.ok && Array.isArray(entries) && entries.length > 0) {
+            listEl.innerHTML = entries
+              .map(
+                (entry) => `
               <div class="journal-card" style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 1rem; background-color: #fafafa; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); box-sizing: border-box;">
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #ddd; padding-bottom: 6px;">
                   <span style="font-weight: bold; color: #555; font-size: 0.95rem;">📅 ${formatTanggalIndo(entry.createdAt)}</span>
@@ -576,7 +396,9 @@
                 </div>
                 <p style="margin: 8px 0; color: #333; line-height: 1.5; white-space: pre-wrap; font-style: italic;">"${entry.content || ''}"</p>
               </div>
-            `).join("");
+            `
+              )
+              .join("");
           } else {
             listEl.innerHTML = `<p style="color: #777; text-align: center; font-style: italic; margin: 2rem 0;">Belum ada jurnal yang disimpan di database.</p>`;
           }
@@ -587,39 +409,41 @@
       }
 
       async function muatData() {
-    const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:5000/api/emotion", {
-        headers: { "Authorization": `Bearer ${token}` }
-    });
-    const result = await response.json();
-    
-    // CEK DI SINI: Apa isi dari result?
-    console.log("Data dari server:", result); 
-    
-    // Pastikan Anda memproses data, contoh:
-    if (result.data && result.data.length > 0) {
-        // Tampilkan data ke elemen HTML
-        document.getElementById("hasil").innerText = "Emosi terakhir: " + result.data[0].emotion;
-    }
-}
+        const tokenLocal = localStorage.getItem("token");
+        try {
+          const response = await fetch(`${apiBase}/api/emotion`, {
+            headers: { Authorization: `Bearer ${tokenLocal}` },
+          });
+          const result = await response.json();
+          console.log("Data dari server:", result);
+          const hasilEl = document.getElementById("hasil");
+          if (hasilEl && result.data && result.data.length > 0) {
+            hasilEl.innerText = "Emosi terakhir: " + result.data[0].emotion;
+          }
+        } catch (err) {
+          console.error("Gagal memuat data:", err);
+        }
+      }
 
       // ================= CHART & HEATMAP SETUP =================
       const emotionChartCtx = document.getElementById("emotionChart").getContext("2d");
       let emotionLabels = [];
       let emotionData = [];
-      
+
       const emotionChart = new Chart(emotionChartCtx, {
         type: "line",
         data: {
           labels: emotionLabels,
-          datasets: [{
-            label: "Level Emosi (Skala 0-3)",
-            data: emotionData,
-            borderColor: "rgba(41, 146, 187, 1)",
-            backgroundColor: "rgba(41, 146, 187, 0.2)",
-            tension: 0.3,
-            fill: true
-          }],
+          datasets: [
+            {
+              label: "Level Emosi (Skala 0-3)",
+              data: emotionData,
+              borderColor: "rgba(41, 146, 187, 1)",
+              backgroundColor: "rgba(41, 146, 187, 0.2)",
+              tension: 0.3,
+              fill: true,
+            },
+          ],
         },
         options: {
           responsive: true,
@@ -636,80 +460,68 @@
         },
       });
 
+      window.emotionChart = emotionChart;
+
       const emotionMapReverse = { Netral: 0, Senang: 1, Sedih: 2, Marah: 3 };
 
       async function muatRiwayatEmosi() {
-    try {
-        // Jangan fetch ke /api/emotion, tapi ke /api/emotion/text
-const response = await fetch("http://localhost:5000/api/emotion/text", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify({ text: isiJurnal })
-});
+        try {
+          const tokenLocal = localStorage.getItem("token");
+          const response = await fetch(`${apiBase}/api/emotion`, {
+            headers: { Authorization: `Bearer ${tokenLocal}` },
+          });
 
+          const result = await response.json();
+          console.log("Data grafik diterima:", result);
 
-        
-        const result = await response.json();
-        console.log("Data grafik diterima:", result); // Debugging
+          const dataArray = Array.isArray(result) ? result : result.data || [];
 
-        // Pastikan kita mengakses array data dengan benar
-        const dataArray = result.data || [];
-
-        if (response.ok && Array.isArray(dataArray)) {
+          if (response.ok && Array.isArray(dataArray)) {
             emotionLabels.length = 0;
             emotionData.length = 0;
             const container = document.getElementById("heatmapContainer");
             if (container) container.innerHTML = "";
 
-            // Urutkan data
-            const sortedData = [...dataArray].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+            const sortedData = [...dataArray].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-            sortedData.forEach(item => {
-                const waktu = new Date(item.createdAt).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
-                
-                // PERBAIKAN: Penanganan case-sensitive agar 'senang' == 'Senang'
-                const emotionKey = item.emotion.charAt(0).toUpperCase() + item.emotion.slice(1).toLowerCase();
-                const level = emotionMapReverse[emotionKey];
-                
-                if (level !== undefined) {
-                    emotionLabels.push(waktu);
-                    emotionData.push(level);
+            sortedData.forEach((item) => {
+              const waktu = item.createdAt ? new Date(item.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short" }) : "";
+              const rawEmotion = item.emotion || item.emosi || "Netral";
+              const emotionKey = rawEmotion.charAt(0).toUpperCase() + rawEmotion.slice(1).toLowerCase();
+              const level = emotionMapReverse[emotionKey];
 
-                    // Tambah Blok Kotak ke Heatmap
-                    if (container) {
-                        const block = document.createElement("div");
-                        block.classList.add("heat-block", emotionKey.toLowerCase());
-                        block.title = `${waktu} - ${emotionKey}`;
-                        container.appendChild(block);
-                    }
+              if (level !== undefined) {
+                emotionLabels.push(waktu);
+                emotionData.push(level);
+
+                if (container) {
+                  const block = document.createElement("div");
+                  block.classList.add("heat-block", emotionKey.toLowerCase());
+                  block.title = `${waktu} - ${emotionKey}`;
+                  container.appendChild(block);
                 }
+              }
             });
-            
-            // Wajib panggil update setelah data di-push
-            if (window.emotionChart) {
-                emotionChart.update();
-            }
+
+            if (window.emotionChart) window.emotionChart.update();
+          }
+        } catch (err) {
+          console.error("Gagal sinkronisasi grafik emosi", err);
         }
-    } catch(err) {
-        console.error("Gagal sinkronisasi grafik emosi", err);
-    }
-}
+      }
 
       // ================= LOGIKA DETEKSI EMOSI =================
       async function simpanEmosi(emotion) {
         try {
-          await fetch("http://localhost:5000/api/emotion", {
+          await fetch(`${apiBase}/api/emotion`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ emotion, type: "text" }),
           });
-          muatRiwayatEmosi(); // Mengupdate grafik & heatmap secara realtime
+          muatRiwayatEmosi();
         } catch (err) {
           console.error("Gagal menyimpan emosi ke MongoDB", err);
         }
@@ -781,9 +593,8 @@ const response = await fetch("http://localhost:5000/api/emotion/text", {
         document.querySelectorAll(".section").forEach((sec) => sec.classList.remove("active"));
         document.getElementById(sectionId).classList.add("active");
         document.querySelectorAll("nav a").forEach((a) => a.classList.remove("active"));
-        
         const targetNav = document.querySelector(`nav a[onclick="showSection('${sectionId}')"]`);
-        if(targetNav) targetNav.classList.add("active");
+        if (targetNav) targetNav.classList.add("active");
       }
     </script>
   </body>
